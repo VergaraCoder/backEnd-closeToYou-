@@ -37,7 +37,10 @@ export class ContactsService {
   }
 
   async update(id: number, updateContactDto: UpdateContactDto) {
-    return `This action updates a #${id} contact`;
+    try{  
+      const {affected} = await this.contactRepository.update(id,updateContactDto);
+      return "Updated Correctly";
+    }catch(err:any){}
   }
 
   async remove(id: number) {

@@ -13,8 +13,8 @@ export class ContactsController {
   }
 
   @Get()
-  findAll() {
-    return this.contactsService.findAll();
+  async findAll() {
+    return await this.contactsService.findAll();
   }
 
   @Get(':id')
@@ -23,8 +23,8 @@ export class ContactsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateContactDto: UpdateContactDto) {
-    return this.contactsService.update(+id, updateContactDto);
+  async update(@Param('id') id: string, @Body() updateContactDto: UpdateContactDto) {
+    return await this.contactsService.update(+id, updateContactDto);
   }
 
   @Delete(':id')
