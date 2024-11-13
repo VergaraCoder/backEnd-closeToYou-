@@ -35,6 +35,9 @@ export class ContactsService {
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} contact`;
+    try{
+      const {affected} = await this.contactRepository.delete(id);
+      return "Delete Perfectly";
+    }catch(err:any){}
   }
 }
