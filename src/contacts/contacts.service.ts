@@ -19,7 +19,7 @@ export class ContactsService {
       const createData=this.contactRepository.create(createContactDto);
       return createData;
     }catch(err:any){
-
+      throw err;
     }
   }
 
@@ -56,14 +56,30 @@ export class ContactsService {
   async update(id: number, updateContactDto: UpdateContactDto) {
     try{  
       const {affected} = await this.contactRepository.update(id,updateContactDto);
+      if(affected==0){
+        throw new ManageError({
+          type:"NOT_FOUND",
+          message:"FAILED TO UPDATED"
+        });
+      }
       return "Updated Correctly";
-    }catch(err:any){}
+    }catch(err:any){
+      throw ManageError.signedMessage(err.message);
+    }
   }
 
   async remove(id: number) {
     try{
       const {affected} = await this.contactRepository.delete(id);
+      if(affected==0){
+        throw new ManageError({
+          type:"NOT_FOUND",
+          message:"FAILED TO DELETE"
+        });
+      }
       return "Delete Perfectly";
-    }catch(err:any){}
+    }catch(err:any){
+      throw ManageError.signedMessage(err.message);
+    }
   }
 }
