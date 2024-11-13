@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
+import { ContactsModule } from './contacts/contacts.module';
 
 
 @Module({
-  imports: [],
+  imports: [ContactsModule],
   controllers: [],
   providers: [],
 })
