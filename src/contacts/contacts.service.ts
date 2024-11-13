@@ -23,11 +23,17 @@ export class ContactsService {
   }
 
   async findAll() {
-    return `This action returns all contacts`;
+    try{
+      const findContacts=await this.contactRepository.find();
+      return findContacts;
+    }catch(err:any){}
   }
 
   async findOne(id: number) {
-    return `This action returns a #${id} contact`;
+    try{
+      const findContact=await this.contactRepository.findOneBy({id});
+      return findContact;
+    }catch(err:any){}
   }
 
   async update(id: number, updateContactDto: UpdateContactDto) {

@@ -18,8 +18,8 @@ export class ContactsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.contactsService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.contactsService.findOne(+id);
   }
 
   @Patch(':id')
