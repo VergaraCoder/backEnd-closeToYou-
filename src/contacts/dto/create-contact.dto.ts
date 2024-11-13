@@ -10,8 +10,8 @@ export class CreateContactDto {
     email:string;
 
     @IsNotEmpty()
-    @IsNumber()
-    telephone:number;
+    @IsString()
+    telephone:string;
 
     @IsNotEmpty()
     @IsString()
