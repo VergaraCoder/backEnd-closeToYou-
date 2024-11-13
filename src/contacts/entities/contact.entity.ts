@@ -16,7 +16,7 @@ export class Contact {
     photoUri:string;
 
     @Column()
-    telephone:number;
+    telephone:string;
 
     // @Column()
     // idOwner:number;

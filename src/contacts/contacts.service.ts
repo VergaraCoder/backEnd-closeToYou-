@@ -15,10 +15,12 @@ export class ContactsService {
   ){}
 
   async create(createContactDto: CreateContactDto) {
-    try{
+    try{     
       const createData=this.contactRepository.create(createContactDto);
+      await this.contactRepository.save(createData);
       return createData;
     }catch(err:any){
+      console.log("error created Contact", err );
       throw err;
     }
   }
@@ -34,6 +36,7 @@ export class ContactsService {
       }
       return findContacts;
     }catch(err:any){
+      console.log("error find All Contacts", err );
       throw ManageError.signedMessage(err.message);
     }
   }
@@ -49,6 +52,7 @@ export class ContactsService {
       }
       return findContact;
     }catch(err:any){
+      console.log("error find one Contact", err );
       throw ManageError.signedMessage(err.message);
     }
   }
@@ -64,6 +68,7 @@ export class ContactsService {
       }
       return "Updated Correctly";
     }catch(err:any){
+      console.log("error updated Contact", err );
       throw ManageError.signedMessage(err.message);
     }
   }
@@ -79,6 +84,7 @@ export class ContactsService {
       }
       return "Delete Perfectly";
     }catch(err:any){
+      console.log("error delete Contact", err );
       throw ManageError.signedMessage(err.message);
     }
   }
