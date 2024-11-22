@@ -1,0 +1,6 @@
+{
+    "recommendations": [
+        "formulahendry.vscode-mysql",
+        "cweijan.vscode-mysql-client2"
+    ]
+}

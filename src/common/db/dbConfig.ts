@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
 import { Contact } from "src/contacts/entities/contact.entity";
+import { Owner } from "src/owner/entities/owner.entity";
 
 
 @Injectable()
@@ -20,9 +21,10 @@ export class Credentials implements TypeOrmOptionsFactory{
             password: this.configService.get<string>('DB_PASSWORD'),
             database: this.configService.get<string>('DB_DATABASE'),
             entities: [
-              Contact
+              Contact,Owner
             ],
-            synchronize: true,
+            synchronize: true,  logging: true,
+            driver: require('mysql2'),
         });
     }
 }
