@@ -23,7 +23,6 @@ export class OwnerService {
   async create(createOwnerDto: CreateOwnerDto) {
     try{
       console.log("enramos a crear user");
-      
       const createData=this.ownerRepository.create(createOwnerDto);
       await this.ownerRepository.save(createData);
       return createData;
