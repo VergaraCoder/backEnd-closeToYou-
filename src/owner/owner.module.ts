@@ -11,7 +11,8 @@ import { Owner } from './entities/owner.entity';
   controllers: [OwnerController],
   providers: [OwnerService],
   exports:[
-    OwnerService
+    OwnerService,
+    TypeOrmModule
   ]
 })
 export class OwnerModule {}

@@ -13,6 +13,10 @@ export class Credentials implements TypeOrmOptionsFactory{
     ){}
 
     createTypeOrmOptions(): Promise<TypeOrmModuleOptions> | TypeOrmModuleOptions {
+        console.log('DB Host:', this.configService.get<string>('DB_HOST'));
+        console.log('DB Port:', this.configService.get<number>('DB_PORT'));
+        console.log('DB Username:', this.configService.get<string>('DB_USERNAME'));
+        console.log('DB Database:', this.configService.get<string>('DB_DATABASE'));
         return({
             type: 'mysql',
             host: this.configService.get<string>('DB_HOST'),
@@ -23,7 +27,7 @@ export class Credentials implements TypeOrmOptionsFactory{
             entities: [
               Contact,Owner
             ],
-            synchronize: true,  logging: true,
+            synchronize: true,
             driver: require('mysql2'),
         });
     }
