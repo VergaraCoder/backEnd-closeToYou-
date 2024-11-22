@@ -22,6 +22,6 @@ export class Contact {
     @Column()
     idOwner:number;
 
-    @ManyToOne(()=>Owner,owner=>owner.contact)
+    @ManyToOne(()=>Owner,owner=>owner.contact,{eager:true})
     owner:Owner;
 }
