@@ -35,10 +35,10 @@ export class OwnerService {
     try{
       const users:Owner[]=await this.ownerRepository.find();
 
-      if(users.length=0){
+      if(users.length==0){
         throw new ManageError({
           type:"NOT_FOUND",
-          message:"INCORRECT CREDENCTIALS"
+          message:"DOES THERE ARE NOT OWNERS"
         });
       }
 

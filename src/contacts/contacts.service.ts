@@ -41,6 +41,23 @@ export class ContactsService {
     }
   }
 
+
+  async findAllByOwnerId(id:number) {
+    try{
+      const findContacts=await this.contactRepository.findBy({idOwner:id});
+      if(findContacts.length==0){
+        throw new ManageError({
+          type:"NOT_FOUND",
+          message:"DOES THERE ARE NOT REGISTER WIHT THIS OWNER"
+        });
+      }
+      return findContacts;
+    }catch(err:any){
+      console.log("error find All Contacts", err );
+      throw ManageError.signedMessage(err.message);
+    }
+  }
+
   async findOne(id: number) {
     try{
       const findContact=await this.contactRepository.findOneBy({id});

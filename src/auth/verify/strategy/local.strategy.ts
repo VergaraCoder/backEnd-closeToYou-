@@ -1,8 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import {PassportStrategy} from '@nestjs/passport';
 import {Strategy} from 'passport-local';
-import {ExtractJwt} from 'passport-jwt';
-import { ConfigService } from "@nestjs/config";
 import { OwnerService } from "src/owner/owner.service";
 
 
@@ -20,6 +18,8 @@ export class LocalStrategy extends PassportStrategy(Strategy){
 
     async validate(email:string,password:string){
         try{
+            console.log("enter verify data");
+            
             const owner=await this.ownerService.findOneByEmailPassword({email,password});
 
             const payload={

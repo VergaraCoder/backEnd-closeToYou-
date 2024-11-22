@@ -26,6 +26,13 @@ export class ContactsController {
     return await this.contactsService.findOne(+id);
   }
 
+
+  @Get('owner/:id')
+  @UseGuards(jwtGuard)
+  async findOneByOwner(@Param('id') id: string) {
+    return await this.contactsService.findOne(+id);
+  }
+
   @Patch(':id')
   @UseGuards(jwtGuard)
   async update(@Param('id') id: string, @Body() updateContactDto: UpdateContactDto) {

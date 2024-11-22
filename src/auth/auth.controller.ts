@@ -11,7 +11,7 @@ export class AuthController {
 
   @Post()
   @UseGuards(LocalGuard)
-  create(@Body() createAuthDto: CreateAuthDto,@Req() request:Request) {
+  create(@Req() request:Request) {
     const requ=request["user"];
     return this.authService.createToken(requ);
   }
