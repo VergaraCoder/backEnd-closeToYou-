@@ -3,6 +3,11 @@ import { OwnerService } from './owner.service';
 import { CreateOwnerDto } from './dto/create-owner.dto';
 import { UpdateOwnerDto } from './dto/update-owner.dto';
 
+interface verifyUser{
+  email:string;
+  password:string;
+}
+
 @Controller('owner')
 export class OwnerController {
   constructor(private readonly ownerService: OwnerService) {}
@@ -11,6 +16,11 @@ export class OwnerController {
   create(@Body() createOwnerDto: CreateOwnerDto) {
     console.log("hello");
     return this.ownerService.create(createOwnerDto);
+  }
+
+  @Post("verify")
+  verifyData(@Body() createOwnerDto: verifyUser) {
+    return this.ownerService.findOneByEmailPassword(createOwnerDto);
   }
 
   @Get()

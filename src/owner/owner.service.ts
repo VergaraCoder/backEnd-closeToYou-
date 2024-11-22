@@ -31,6 +31,7 @@ export class OwnerService {
     }
   }
 
+
   async findAll() {
     try{
       const users:Owner[]=await this.ownerRepository.find();
