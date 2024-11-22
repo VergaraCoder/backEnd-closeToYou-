@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
 import { jwtGuard } from 'src/auth/verify/guards/jwt.guard';
+import { Request } from 'express';
 
 @Controller('contacts')
 export class ContactsController {
@@ -27,10 +28,17 @@ export class ContactsController {
   }
 
 
-  @Get('owner/:id')
+  @Get('owner')
   @UseGuards(jwtGuard)
-  async findOneByOwner(@Param('id') id: string) {
-    return await this.contactsService.findOne(+id);
+  async findOneByOwner( @Req() request:Request) {
+    const dataRequest:any=request["user"];
+
+    if(request["refresh_token"]){
+      
+      const contacts=await this.contactsService.findAllByOwnerId(dataRequest.id);
+      return {refresh_token:request["refresh_token"],contacts};
+    }
+    return await this.contactsService.findOne(dataRequest.id);
   }
 
   @Patch(':id')

@@ -30,12 +30,18 @@ export class jwtGuard implements CanActivate{
             }
 
             await this.jwtService.verify(token1);
+            const tokenDecode= await this.jwtService.decode(token1);
+            request["user"]= tokenDecode;
             return true;
 
         }catch(err:any){
             if(err instanceof webToken.TokenExpiredError){
                 const {refresh_token}=await this.authService.renovateToken(token2);
-                return {refresh_token}
+
+                const decode= await this.jwtService.decode(refresh_token);
+                request["user"]=decode;
+                request["refresh_token"]=refresh_token;
+                return true;
             }
         }
     }
