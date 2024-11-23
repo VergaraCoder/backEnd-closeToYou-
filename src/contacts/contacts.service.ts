@@ -48,6 +48,10 @@ export class ContactsService {
     try{      
       const findContacts=await this.contactRepository.find({where:{idOwner:id}});
       const owner=await this.ownerService.findOne(id);
+      console.log("THE DATA COMPLETE IS ");
+      console.log([owner,...findContacts]);
+      
+      
       return [owner,...findContacts];
     }catch(err:any){
       throw ManageError.signedMessage(err.message);

@@ -84,6 +84,10 @@ export class OwnerService {
           message:"INCORRECT CREDENCTIALS"
         });
       }
+      console.log("EL USUARIO ENCONTRADO ES");
+      console.log(user);
+      
+      
       return user;
     }catch(err:any){
       throw ManageError.signedMessage(err.message);
