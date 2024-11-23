@@ -78,10 +78,7 @@ export class ContactsService {
     try{  
       const {affected} = await this.contactRepository.update(id,updateContactDto);
       if(affected==0){
-        throw new ManageError({
-          type:"NOT_FOUND",
-          message:"FAILED TO UPDATED"
-        });
+        await this.ownerService.update(id,updateContactDto);
       }
       return "Updated Correctly";
     }catch(err:any){
@@ -94,10 +91,8 @@ export class ContactsService {
     try{
       const {affected} = await this.contactRepository.delete(id);
       if(affected==0){
-        throw new ManageError({
-          type:"NOT_FOUND",
-          message:"FAILED TO DELETE"
-        });
+        await this.ownerService.remove(id);
+        return "Delete perfectly"
       }
       return "Delete Perfectly";
     }catch(err:any){

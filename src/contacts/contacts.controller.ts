@@ -57,6 +57,6 @@ export class ContactsController {
   @UseGuards(jwtGuard)
   async remove(@Param() id:string, @Req() request:Request) {
     const dataRequest:any=request["user"];
-    return await this.contactsService.remove(dataRequest.id);
+    return await this.contactsService.remove(+id);
   }
 }
