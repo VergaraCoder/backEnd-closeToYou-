@@ -5,13 +5,15 @@ import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import { Contact } from './entities/contact.entity';
 import { ManageError } from 'src/common/erros/custom/manageError';
+import { OwnerService } from 'src/owner/owner.service';
 
 @Injectable()
 export class ContactsService {
 
   constructor(
     @InjectRepository(Contact)
-    private contactRepository:Repository<Contact>
+    private contactRepository:Repository<Contact>,
+    private ownerService:OwnerService
   ){}
 
   async create(createContactDto: CreateContactDto) {
@@ -45,7 +47,8 @@ export class ContactsService {
   async findAllByOwnerId(id:number) {
     try{      
       const findContacts=await this.contactRepository.find({where:{idOwner:id}});
-      return findContacts;
+      const owner=await this.ownerService.findOne(id);
+      return [owner,...findContacts];
     }catch(err:any){
       throw ManageError.signedMessage(err.message);
     }
