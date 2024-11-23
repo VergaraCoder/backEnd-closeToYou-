@@ -16,7 +16,7 @@ export class ContactsService {
     private ownerService:OwnerService
   ){}
 
-  async create(createContactDto: CreateContactDto) {
+  async create(createContactDto: any) {
     try{     
       const createData=this.contactRepository.create(createContactDto);
       await this.contactRepository.save(createData);

@@ -16,9 +16,5 @@ export class CreateContactDto {
     @IsNotEmpty()
     @IsString()
     photoUri:string;
-
-    @IsNotEmpty()
-    @IsNumber()
-    idOwner:number;
 }
 

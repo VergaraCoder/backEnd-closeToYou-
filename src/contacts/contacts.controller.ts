@@ -11,8 +11,9 @@ export class ContactsController {
 
   @Post()
   @UseGuards(jwtGuard)
-  async create(@Body() createContactDto: CreateContactDto) {
-    return await this.contactsService.create(createContactDto);
+  async create(@Body() createContactDto: CreateContactDto, @Req() request:Request) {
+    const reque:any= request["user"];
+    return await this.contactsService.create({idOwner:reque.id...createContactDto,});
   }
 
   @Get()
@@ -37,22 +38,25 @@ export class ContactsController {
     return await this.contactsService.findAllByOwnerId(dataRequest.id);
   }
 
-  @Get(':id')
+  @Get(":id")
   @UseGuards(jwtGuard)
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param() id:string,@Req() request:Request) {
+    const dataRequest:any=request["user"];
     return await this.contactsService.findOne(+id);
   }
 
 
-  @Patch(':id')
+  @Patch(":id")
   @UseGuards(jwtGuard)
-  async update(@Param('id') id: string, @Body() updateContactDto: UpdateContactDto) {
+  async update(@Param() id:string,@Body() updateContactDto: UpdateContactDto,@Req() request:Request) {
+    const dataRequest:any=request["user"];
     return await this.contactsService.update(+id, updateContactDto);
   }
 
-  @Delete(':id')
+  @Delete(":id")
   @UseGuards(jwtGuard)
-  async remove(@Param('id') id: string) {
-    return await this.contactsService.remove(+id);
+  async remove(@Param() id:string, @Req() request:Request) {
+    const dataRequest:any=request["user"];
+    return await this.contactsService.remove(dataRequest.id);
   }
 }
