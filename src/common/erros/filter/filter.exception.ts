@@ -8,11 +8,9 @@ export class FilterError implements ExceptionFilter{
         const response:Response=host.switchToHttp().getResponse();
         const request:Request=host.switchToHttp().getRequest();
         let message;
-        let status;
+        let status;    
 
-        console.log(exception);
         
-
         const ifExist=exception.message.split(" :: ");
         const ifExist2=exception.response;
 

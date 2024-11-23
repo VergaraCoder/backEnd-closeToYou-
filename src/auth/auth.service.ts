@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { JwtService } from '@nestjs/jwt';
-import jsonToken from 'jsonwebtoken';
+import * as jsonToken from 'jsonwebtoken';
 import { ManageError } from 'src/common/erros/custom/manageError';
 
 @Injectable()
@@ -14,36 +14,42 @@ export class AuthService {
 
   async createToken(createAuthDto: any) {
     return{
-      access_token:this.jwtService.sign(createAuthDto,{expiresIn:'2h'}),
-      refresh_token:this.jwtService.sign(createAuthDto,{expiresIn:'20d'})
+      access_token:this.jwtService.sign(createAuthDto,{expiresIn:'4h'}),
+      refresh_token:this.jwtService.sign(createAuthDto,{expiresIn:'30d'})
     }
   }
 
   async renovateToken(refreshToken:string) {
+    const decodeToken=await this.jwtService.decode(refreshToken);
     try{
+      delete decodeToken.iat;
+      delete decodeToken.exp;
       
       await this.jwtService.verify(refreshToken);
+      
+      const access_token:string=this.jwtService.sign(decodeToken,{expiresIn:'4h'});
 
-      const decodeToken=await this.jwtService.decode(refreshToken);
+      const refresh_token:string=this.jwtService.sign(decodeToken,{expiresIn:'30d'});
 
-      const refresh_token:string=this.jwtService.sign(decodeToken);
-
-      return {refresh_token};
+      return {refresh_token,access_token};
 
     }catch(err:any){
-      if(err instanceof jsonToken.JsonWebTokenError){
+      
+      if(err instanceof jsonToken.JsonWebTokenError && err.message !== "jwt expired"){    
         throw new ManageError({
           type:"UNAUTHORIZED",
-          message:"YOU MUST PROVIDER THE TOKENS"
+          message:"THE TOKEN MUST BE PROVIDER"
         });
       }
-      else if(err instanceof jsonToken.JsonWebTokenError || err instanceof jsonToken.TokenExpiredError){
-        throw new ManageError({
-          type:"UNAUTHORIZED",
-          message:"THE TOKEN EXPIRED"
-        });
+      if(err instanceof jsonToken.TokenExpiredError || err.message == "jwt expired"){
+        
+        const access_token:string=this.jwtService.sign(decodeToken,{expiresIn:'4h'});
+
+        const refresh_token:string=this.jwtService.sign(decodeToken,{expiresIn:'20d'});
+  
+        return {refresh_token,access_token};
       }
-      throw ManageError.signedMessage(err.message);
+      //throw ManageError.signedMessage(err.message);
     }
   }
 }

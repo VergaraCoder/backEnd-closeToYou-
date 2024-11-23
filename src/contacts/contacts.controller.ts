@@ -21,25 +21,28 @@ export class ContactsController {
     return await this.contactsService.findAll();
   }
 
+  @Get('owner')
+  @UseGuards(jwtGuard)
+  async findOneByOwner( @Req() request:Request) {
+    
+    const dataRequest:any=request["user"];
+    console.log(dataRequest);
+    
+    if(request["refresh_token"]){
+
+      const contacts=await this.contactsService.findAllByOwnerId(dataRequest.id);
+      return {refresh_token:request["refresh_token"],contacts};
+    }
+    
+    return await this.contactsService.findAllByOwnerId(dataRequest.id);
+  }
+
   @Get(':id')
   @UseGuards(jwtGuard)
   async findOne(@Param('id') id: string) {
     return await this.contactsService.findOne(+id);
   }
 
-
-  @Get('owner')
-  @UseGuards(jwtGuard)
-  async findOneByOwner( @Req() request:Request) {
-    const dataRequest:any=request["user"];
-
-    if(request["refresh_token"]){
-      
-      const contacts=await this.contactsService.findAllByOwnerId(dataRequest.id);
-      return {refresh_token:request["refresh_token"],contacts};
-    }
-    return await this.contactsService.findOne(dataRequest.id);
-  }
 
   @Patch(':id')
   @UseGuards(jwtGuard)

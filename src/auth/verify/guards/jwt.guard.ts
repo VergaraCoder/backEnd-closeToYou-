@@ -4,7 +4,7 @@ import { JwtService } from "@nestjs/jwt";
 import { Request } from "express";
 import { Observable } from "rxjs";
 import { AuthService } from "src/auth/auth.service";
-import webToken from 'jsonwebtoken';
+import * as webToken from 'jsonwebtoken';
 import { ManageError } from "src/common/erros/custom/manageError";
 
 @Injectable()
@@ -20,7 +20,7 @@ export class jwtGuard implements CanActivate{
         const request:Request= context.switchToHttp().getRequest();
         const token1=request.headers["refresh_token"] as string | undefined; 
         const token2=request.headers["access_token"] as string | undefined; 
-        try{
+        try{         
             
             if(!token1 || !token2){
                 throw new ManageError({
@@ -32,15 +32,23 @@ export class jwtGuard implements CanActivate{
             await this.jwtService.verify(token1);
             const tokenDecode= await this.jwtService.decode(token1);
             request["user"]= tokenDecode;
+            console.log("PASSS");
+            
             return true;
 
         }catch(err:any){
-            if(err instanceof webToken.TokenExpiredError){
-                const {refresh_token}=await this.authService.renovateToken(token2);
 
-                const decode= await this.jwtService.decode(refresh_token);
+            if(err instanceof webToken.TokenExpiredError){
+                const tokens:any=await this.authService.renovateToken(token2);
+
+                const decode= await this.jwtService.decode(tokens.refresh_token);
+
                 request["user"]=decode;
-                request["refresh_token"]=refresh_token;
+
+                request["refresh_token"]=tokens.refresh_token;
+
+                request["access_token"]=tokens.refresh_token;
+
                 return true;
             }
         }
