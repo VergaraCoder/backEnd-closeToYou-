@@ -45,13 +45,6 @@ export class ContactsService {
   async findAllByOwnerId(id:number) {
     try{      
       const findContacts=await this.contactRepository.find({where:{idOwner:id}});
-
-      if(findContacts.length==0){
-        throw new ManageError({
-          type:"NOT_FOUND",
-          message:"DOES THERE ARE NOT CONTACTS WIHT THIS OWNER"
-        });
-      }
       return findContacts;
     }catch(err:any){
       throw ManageError.signedMessage(err.message);
