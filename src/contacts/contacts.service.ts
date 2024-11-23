@@ -18,6 +18,10 @@ export class ContactsService {
 
   async create(createContactDto: any) {
     try{     
+      console.log("data is ");
+      console.log(createContactDto);
+      
+      
       const createData=this.contactRepository.create(createContactDto);
       await this.contactRepository.save(createData);
       return createData;
@@ -79,6 +83,7 @@ export class ContactsService {
       const {affected} = await this.contactRepository.update(id,updateContactDto);
       if(affected==0){
         await this.ownerService.update(id,updateContactDto);
+        return "Updated Correctly";
       }
       return "Updated Correctly";
     }catch(err:any){
