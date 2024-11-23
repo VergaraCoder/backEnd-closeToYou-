@@ -13,7 +13,7 @@ export class ContactsController {
   @UseGuards(jwtGuard)
   async create(@Body() createContactDto: CreateContactDto, @Req() request:Request) {
     const reque:any= request["user"];
-    return await this.contactsService.create({idOwner:reque.id...createContactDto,});
+    return await this.contactsService.create({idOwner:reque.id,...createContactDto});
   }
 
   @Get()
