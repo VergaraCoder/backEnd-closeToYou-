@@ -21,6 +21,8 @@ export class jwtGuard implements CanActivate{
         const token1=request.headers["refresh_token"] as string | undefined; 
         const token2=request.headers["access_token"] as string | undefined; 
         try{    
+            console.log("the tokens are ");
+            
             console.log(token1);
             console.log(token2);
                  
