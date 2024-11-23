@@ -20,7 +20,10 @@ export class jwtGuard implements CanActivate{
         const request:Request= context.switchToHttp().getRequest();
         const token1=request.headers["refresh_token"] as string | undefined; 
         const token2=request.headers["access_token"] as string | undefined; 
-        try{         
+        try{    
+            console.log(token1);
+            console.log(token2);
+                 
             
             if(!token1 || !token2){
                 throw new ManageError({
