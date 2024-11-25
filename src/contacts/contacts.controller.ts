@@ -14,6 +14,8 @@ export class ContactsController {
   async create(@Body() createContactDto: CreateContactDto, @Req() request:Request) {
     const reque:any= request["user"];
     console.log(request.body);
+    console.log(createContactDto);
+    
     
     return await this.contactsService.create({idOwner:reque.id,...createContactDto});
   }
