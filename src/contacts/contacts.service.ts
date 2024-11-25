@@ -24,6 +24,10 @@ export class ContactsService {
       
       const createData=this.contactRepository.create(createContactDto);
       await this.contactRepository.save(createData);
+      console.log("the DATA CREATED IS ");
+      console.log(createData);
+      
+      
       return createData;
     }catch(err:any){
       console.log("error created Contact", err );
