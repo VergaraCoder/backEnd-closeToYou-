@@ -46,7 +46,7 @@ export class ContactsController {
   @UseGuards(jwtGuard)
   async findOne(@Param() id:string,@Req() request:Request) {
     const dataRequest:any=request["user"];
-    return await this.contactsService.findOne(+id);
+    return await this.contactsService.findOne(+request.params.id);
   }
 
 
@@ -54,13 +54,15 @@ export class ContactsController {
   @UseGuards(jwtGuard)
   async update(@Param() id:string,@Body() updateContactDto: UpdateContactDto,@Req() request:Request) {
     const dataRequest:any=request["user"];
-    return await this.contactsService.update(+id, updateContactDto);
+    return await this.contactsService.update(+request.params.id, updateContactDto);
   }
 
-  @Delete(":id")
   @UseGuards(jwtGuard)
+  @Delete(":id")
   async remove(@Param() id:string, @Req() request:Request) {
     const dataRequest:any=request["user"];
-    return await this.contactsService.remove(+id);
+    console.log(+id);
+    
+    return await this.contactsService.remove(+request.params.id);
   }
 }

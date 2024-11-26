@@ -20,13 +20,7 @@ export class jwtGuard implements CanActivate{
         const request:Request= context.switchToHttp().getRequest();
         const token1=request.headers["refresh_token"] as string | undefined; 
         const token2=request.headers["access_token"] as string | undefined; 
-        try{    
-            console.log("the tokens are ");
-            
-            console.log(token1);
-            console.log(token2);
-                 
-            
+        try{               
             if(!token1 || !token2){
                 throw new ManageError({
                     type:"UNAUTHORIZED",
@@ -37,6 +31,7 @@ export class jwtGuard implements CanActivate{
             await this.jwtService.verify(token1);
             const tokenDecode= await this.jwtService.decode(token1);
             request["user"]= tokenDecode;
+            
             console.log("PASSS");
             
             return true;
